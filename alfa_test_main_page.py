@@ -12,94 +12,94 @@ import locators
 import Steps.support_steps as support_steps
 
 
-def test_moving_menu_links():
+def test_moving_menu_links(browser):
     try:
-        # Выбираем Chrome браузер
-        driver_service = Service(ChromeDriverManager().install())
-        # Инициализируем браузер
-        driver = webdriver.Chrome(service=driver_service)
+
         # Выставляем ожидание в 10 секунд
-        driver.implicitly_wait(10)
+        browser.implicitly_wait(10)
         # Открываем тестовую страницу
-        driver.get("https://alfabank.ru/")
+        browser.get("https://alfabank.ru/")
         # Разворачиваем окно на весь экран
-        driver.maximize_window()
+        browser.maximize_window()
 
         # Выведем число вкладов на странице
-        button_cards = driver.find_element(By.XPATH, locators.BUTTON_CARDS)
+        button_cards = browser.find_element(By.XPATH, locators.BUTTON_CARDS)
         button_cards.click()
         # Находим элемент Банковские карты
-        first_page_title = driver.find_element(By.XPATH, locators.FIRST_TITLE_ON_PAGE)
+        first_page_title = browser.find_element(By.XPATH, locators.FIRST_TITLE_ON_PAGE)
         # Сравниваем текст заголовка с найденным элементом
         assert first_page_title.text == "Банковские карты"
     finally:
         # Закрываем браузер
-        driver.quit()
+        browser.quit()
 
 
-def test_geo_position():
-    driver_service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=driver_service)
-    driver.implicitly_wait(10)
-    driver.get("https://alfabank.ru/")
-    driver.maximize_window()
+def test_geo_position(browser):
+    # Выставляем ожидание в 10 секунд
+    browser.implicitly_wait(10)
+    # Открываем тестовую страницу
+    browser.get("https://alfabank.ru/")
+    # Разворачиваем окно на весь экран
+    browser.maximize_window()
 
     # Скроллим вниз экрана
-    driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.END)
+    browser.find_element(By.TAG_NAME, 'body').send_keys(Keys.END)
     time.sleep(5)
     # Находим геопозицию Москва
-    geo_button_msk = driver.find_element(By.XPATH, locators.GEO_BUTTON_MSK)
+    geo_button_msk = browser.find_element(By.XPATH, locators.GEO_BUTTON_MSK)
     # Нажимаем на неё
     geo_button_msk.click()
     # Находим строку "Введите название города"
-    region_name_field = driver.find_element(By.XPATH, locators.REGION_NAME_FIELD)
+    region_name_field = browser.find_element(By.XPATH, locators.REGION_NAME_FIELD)
     # Вводим название "Санкт-Петербург"
     region_name_field.send_keys("Санкт-Петербург")
     # Находим Санкт-Петербург
-    region_name_button = driver.find_element(By.XPATH, locators.REGION_NAME_BUTTON)
+    region_name_button = browser.find_element(By.XPATH, locators.REGION_NAME_BUTTON)
     # Кликаем по нему
     region_name_button.click()
     # Находим геопозицию Санкт-Петербург внизу экрана
-    geo_button_spb = driver.find_element(By.XPATH, locators.GEO_BUTTON_SPB)
+    geo_button_spb = browser.find_element(By.XPATH, locators.GEO_BUTTON_SPB)
     # Проверяем, что в нем корректный текст - тот, регион, который мы выбираем
     assert geo_button_spb.text == "Санкт-Петербург"
 
     time.sleep(5)
 
 
-def test_incorrect_geo_position():
+def test_incorrect_geo_position(browser):
     try:
-        driver_service = Service(ChromeDriverManager().install())
-        driver = webdriver.Chrome(service=driver_service)
-        driver.implicitly_wait(10)
-        driver.get("https://alfabank.ru/")
-        driver.maximize_window()
+        # Выставляем ожидание в 10 секунд
+        browser.implicitly_wait(10)
+        # Открываем тестовую страницу
+        browser.get("https://alfabank.ru/")
+        # Разворачиваем окно на весь экран
+        browser.maximize_window()
 
         # Скроллим вниз экрана
-        driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.END)
+        browser.find_element(By.TAG_NAME, 'body').send_keys(Keys.END)
         time.sleep(5)
         # Находим геопозицию Москва
-        geo_button_msk = driver.find_element(By.XPATH, locators.GEO_BUTTON_MSK)
+        geo_button_msk = browser.find_element(By.XPATH, locators.GEO_BUTTON_MSK)
         # Нажимаем на неё
         geo_button_msk.click()
         # Находим строку "Введите название города"
-        region_name_field = driver.find_element(By.XPATH, locators.REGION_NAME_FIELD)
+        region_name_field = browser.find_element(By.XPATH, locators.REGION_NAME_FIELD)
         # Вводим рандомное сгенерированное название
         region_name_field.send_keys(support_steps.generate_random_string(5))
         time.sleep(5)
     finally:
-        driver.quit()
+        browser.quit()
 
 
-def test_count_links():
-    driver_service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=driver_service)
-    driver.implicitly_wait(10)
-    driver.get("https://alfabank.ru/")
-    driver.maximize_window()
+def test_count_links(browser):
+    # Выставляем ожидание в 10 секунд
+    browser.implicitly_wait(10)
+    # Открываем тестовую страницу
+    browser.get("https://alfabank.ru/")
+    # Разворачиваем окно на весь экран
+    browser.maximize_window()
 
     # Найдём все ссылки "Вклады" на странице
-    driver.find_element(By.XPATH, "//a[@title='Вклады']")
+    browser.find_element(By.XPATH, "//a[@title='Вклады']")
     # Проверим, что их 6
     assert len('Вклады') == 6
     # print("Сount =", len('Вклады'))
@@ -107,18 +107,19 @@ def test_count_links():
     time.sleep(3)
 
 
-def test_color_link():
-    driver_service = Service(ChromeDriverManager().install())
-    driver = webdriver.Chrome(service=driver_service)
-    driver.implicitly_wait(10)
-    driver.get("https://alfabank.ru/")
-    driver.maximize_window()
+def test_color_link(browser):
+    # Выставляем ожидание в 10 секунд
+    browser.implicitly_wait(10)
+    # Открываем тестовую страницу
+    browser.get("https://alfabank.ru/")
+    # Разворачиваем окно на весь экран
+    browser.maximize_window()
     # Находим элемент Альфа-Онлайн
-    alfa_online_button = driver.find_element(By.XPATH, locators.ALFA_ONLINE_BUTTON)
+    alfa_online_button = browser.find_element(By.XPATH, locators.ALFA_ONLINE_BUTTON)
     # Занесём в переменную цвет ссылки до наведения мыши
     color_before_perform = alfa_online_button.value_of_css_property('color')
     # Наводим мышь на кнопку Альфа-Онлайн
-    ActionChains(driver).move_to_element(alfa_online_button).perform()
+    ActionChains(browser).move_to_element(alfa_online_button).perform()
     # Занесём в переменную цвет ссылки после наведения мыши
     color_after_perform = alfa_online_button.value_of_css_property('color')
     # Сравним результаты до и после (они должны быть одниаковыми т.к. цвет не менялся)
