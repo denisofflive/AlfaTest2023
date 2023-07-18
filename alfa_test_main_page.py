@@ -9,15 +9,20 @@ from webdriver_manager.chrome import ChromeDriverManager
 # Библиотека отвечающая за наведение курсора мыши
 from selenium.webdriver.common.action_chains import ActionChains
 import locators
+import Steps.support_steps as support_steps
 
 
 def test_moving_menu_links():
-
     try:
+        # Выбираем Chrome браузер
         driver_service = Service(ChromeDriverManager().install())
+        # Инициализируем браузер
         driver = webdriver.Chrome(service=driver_service)
+        # Выставляем ожидание в 10 секунд
         driver.implicitly_wait(10)
+        # Открываем тестовую страницу
         driver.get("https://alfabank.ru/")
+        # Разворачиваем окно на весь экран
         driver.maximize_window()
 
         # Выведем число вкладов на странице
@@ -60,6 +65,30 @@ def test_geo_position():
     assert geo_button_spb.text == "Санкт-Петербург"
 
     time.sleep(5)
+
+
+def test_incorrect_geo_position():
+    try:
+        driver_service = Service(ChromeDriverManager().install())
+        driver = webdriver.Chrome(service=driver_service)
+        driver.implicitly_wait(10)
+        driver.get("https://alfabank.ru/")
+        driver.maximize_window()
+
+        # Скроллим вниз экрана
+        driver.find_element(By.TAG_NAME, 'body').send_keys(Keys.END)
+        time.sleep(5)
+        # Находим геопозицию Москва
+        geo_button_msk = driver.find_element(By.XPATH, locators.GEO_BUTTON_MSK)
+        # Нажимаем на неё
+        geo_button_msk.click()
+        # Находим строку "Введите название города"
+        region_name_field = driver.find_element(By.XPATH, locators.REGION_NAME_FIELD)
+        # Вводим рандомное сгенерированное название
+        region_name_field.send_keys(support_steps.generate_random_string(5))
+        time.sleep(5)
+    finally:
+        driver.quit()
 
 
 def test_count_links():
