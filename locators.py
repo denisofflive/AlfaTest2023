@@ -1,0 +1,5 @@
+REGION_NAME_FIELD = "//input[@placeholder='Введите название города']"
+GEO_BUTTON = "//span[text()='Москва']"
+ALFA_ONLINE_BUTTON = "//a[@data-test-id='internet-bank-button']"
+BUTTON_CARDS = "//a[@title='Карты']"
+FIRST_TITLE_ON_PAGE = "//h1[1]"
